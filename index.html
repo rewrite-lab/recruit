@@ -87,8 +87,12 @@
         align-items: center;
         padding: 24px 4vw;
         border-bottom: 1px solid var(--border-color);
-        position: relative;
-        z-index: 10;
+        position: sticky;
+        top: 0;
+        z-index: 120;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
       }
 
       .nav-actions {
@@ -467,6 +471,35 @@
         line-height: 1.6;
       }
 
+      .application-window {
+        margin-bottom: 28px;
+        padding: 28px 32px;
+        border: 1px solid var(--border-color);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.045) 0%,
+          rgba(255, 255, 255, 0.02) 100%
+        );
+      }
+      .application-window-label {
+        display: block;
+        margin-bottom: 12px;
+        font-size: 0.78rem;
+        color: var(--text-tertiary);
+        letter-spacing: 0.12em;
+      }
+      .application-window-dates {
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.35;
+      }
+      .application-window-note {
+        margin-top: 10px;
+        font-size: 0.92rem;
+        color: var(--text-secondary);
+      }
+
       /* --- Process List --- */
       .process-list {
         list-style: none;
@@ -730,6 +763,14 @@
           padding: 24px;
         }
 
+        .application-window {
+          padding: 24px;
+        }
+
+        .application-window-dates {
+          font-size: 1.28rem;
+        }
+
         .process-item {
           grid-template-columns: 52px 1fr;
         }
@@ -788,6 +829,23 @@
         .tag {
           padding: 7px 14px;
           font-size: 0.8rem;
+        }
+
+        .application-window {
+          padding: 20px;
+          margin-bottom: 24px;
+        }
+
+        .application-window-label {
+          font-size: 0.72rem;
+        }
+
+        .application-window-dates {
+          font-size: 1.05rem;
+        }
+
+        .application-window-note {
+          font-size: 0.82rem;
         }
 
         .link-row .link-title,
@@ -857,7 +915,8 @@
 
       <p class="hero-desc reveal delay-3">
         <span class="lang-copy lang-ko"
-          >웹과 관련된 모든 부분을 파고들고 체계적으로, 심화적으로 연구합니다.<br />
+          >웹과 관련된 모든 부분을 파고들고 체계적으로, 심화적으로
+          연구합니다.<br />
           Rewrite Lab은 "연구한 내용은 모두 책임있게 공개한다"는 원칙 아래
           지식을 축적하고 공유하는 활동을 수행하는 글로벌 웹 해킹 리서치
           그룹입니다.</span
@@ -866,8 +925,8 @@
           >We dig into every layer of the web through structured, in-depth
           research.<br />
           Rewrite Lab is a global web hacking research group that builds and
-          shares knowledge under the principle that "everything we study must
-          be disclosed responsibly."</span
+          shares knowledge under the principle that "everything we study must be
+          disclosed responsibly."</span
         >
       </p>
 
@@ -998,8 +1057,8 @@
             <span class="lang-copy lang-ko"
               >모든 연구 활동은 오직 멤버들의 자율성에 기반하여 운영됩니다.
               강압적인 지시는 없으며, 다양한 국적의 멤버들이 활동하는 만큼 주요
-              커뮤니케이션과 문서화는
-              <strong>영어(English)</strong>로 진행됩니다.</span
+              커뮤니케이션과 문서화는 <strong>영어(English)</strong>로
+              진행됩니다.</span
             >
             <span class="lang-copy lang-en"
               >All research activity is driven entirely by member autonomy.
@@ -1053,25 +1112,40 @@
         <h2 class="sec-title">Join the Core.</h2>
       </div>
       <div class="sec-right">
+        <div class="application-window reveal delay-1">
+          <span class="application-window-label mono">
+            <span class="lang-copy lang-ko">모집 기간</span>
+            <span class="lang-copy lang-en">APPLICATION WINDOW</span>
+          </span>
+          <div class="application-window-dates">
+            2026.03.09 00:00 UTC - 2026.03.24 00:00 UTC
+          </div>
+          <p class="application-window-note">
+            <span class="lang-copy lang-ko"
+              >시작 및 마감 시각은 모두 UTC 기준 자정입니다.</span
+            >
+            <span class="lang-copy lang-en"
+              >Both the opening and closing times are midnight in UTC.</span
+            >
+          </p>
+        </div>
         <div class="restriction-box reveal delay-1">
           <h3>Beginners Restricted</h3>
           <p>
             <span class="lang-copy lang-ko"
-              >현재 팀이 수행 중인 리서치는 브라우저 엔진(Chromium, Firefox)
-              및 런타임 구조, 프레임워크 및 라이브러리에 대한 고도의 기술적
-              이해를 요구합니다.
-              <br />합류 즉시 이러한 심화 리서치를 팀 단위로 수행하고 논의할 수
-              있는 리서처 분들을 모십니다. (웹 해킹 입문자/초보자 지원
-              불가)</span
+              >현재 팀이 수행 중인 리서치는 브라우저 엔진(Chromium, Firefox) 및
+              런타임 구조, 프레임워크 및 라이브러리에 대한 고도의 기술적 이해를
+              요구합니다. <br />합류 즉시 이러한 심화 리서치를 팀 단위로
+              수행하고 논의할 수 있는 리서처 분들을 모십니다. (웹 해킹
+              입문자/초보자 지원 불가)</span
             >
             <span class="lang-copy lang-en"
               >Our current research demands strong technical understanding of
               browser engines (Chromium, Firefox), runtime internals,
-              frameworks, and libraries.
-              <br />We are looking for researchers who can immediately
-              participate in and discuss this level of advanced research as a
-              team. (No support for web hacking beginners or entry-level
-              applicants)</span
+              frameworks, and libraries. <br />We are looking for researchers
+              who can immediately participate in and discuss this level of
+              advanced research as a team. (No support for web hacking beginners
+              or entry-level applicants)</span
             >
           </p>
         </div>
@@ -1116,16 +1190,15 @@
               </h4>
               <p>
                 <span class="lang-copy lang-ko"
-                  >형식적인 압박 면접은 없습니다. 다만, 지원자의 리서치
-                  방향성과 기술적 핏(Fit)을 파악하기 위해 기존 글로벌 멤버들과
-                  Discord를 통해 심도 있는 기술 대화(Casual Chat)를
-                  진행합니다.</span
+                  >형식적인 압박 면접은 없습니다. 다만, 지원자의 리서치 방향성과
+                  기술적 핏(Fit)을 파악하기 위해 기존 글로벌 멤버들과 Discord를
+                  통해 심도 있는 기술 대화(Casual Chat)를 진행합니다.</span
                 >
                 <span class="lang-copy lang-en"
-                  >There is no formal pressure interview. Instead, to
-                  understand your research direction and technical fit, we hold
-                  an in-depth casual technical chat with existing global
-                  members over Discord.</span
+                  >There is no formal pressure interview. Instead, to understand
+                  your research direction and technical fit, we hold an in-depth
+                  casual technical chat with existing global members over
+                  Discord.</span
                 >
               </p>
             </div>
@@ -1192,7 +1265,10 @@
             nextLanguage === "en"
               ? "Switch language to Korean"
               : "Switch language to English";
-          languageToggle.setAttribute("aria-pressed", String(nextLanguage === "ko"));
+          languageToggle.setAttribute(
+            "aria-pressed",
+            String(nextLanguage === "ko")
+          );
           languageToggle.setAttribute("aria-label", switchLabel);
         }
 
