@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rewrite Lab | Global Web Security Research</title>
+    <!-- 최고급 타이포그래피 (Pretendard & JetBrains Mono) -->
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-color: #000000;
+        --surface-color: #0a0a0a;
+        --text-primary: #ffffff;
+        --text-secondary: #888888;
+        --text-tertiary: #555555;
+        --border-color: #222222;
+        --accent: #ffffff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Pretendard Variable", -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        line-height: 1.5;
+        overflow-x: hidden;
+      }
+
+      /* 미세한 노이즈 텍스처 */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        opacity: 0.04;
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 4vw;
+        position: relative;
+        z-index: 10;
+      }
+
+      /* --- Header / Nav (로고 추가) --- */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 4vw;
+        border-bottom: 1px solid var(--border-color);
+        position: relative;
+        z-index: 10;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+        color: var(--text-primary);
+      }
+
+      /* 로고 이미지 합성 처리 */
+      .logo img {
+        height: 48px; /* 로고 크기 조정 */
+        width: auto;
+        /* 이미지의 검은 배경이 웹사이트 배경과 완벽히 섞이도록 처리 */
+        mix-blend-mode: lighten;
+      }
+
+      .nav-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+      }
+      .nav-status .dot {
+        width: 6px;
+        height: 6px;
+        background-color: #fff;
+        border-radius: 50%;
+        animation: pulse 2s infinite ease-in-out;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.3;
+        }
+      }
+
+      /* --- Hero Section --- */
+      .hero {
+        padding: 18vh 0 10vh 0;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .hero h1 {
+        font-size: clamp(4rem, 9vw, 8rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+        margin-bottom: 32px;
+        text-transform: uppercase;
+      }
+
+      /* Theori Style Mask-up Animation */
+      .line-wrap {
+        overflow: hidden;
+        display: block;
+      }
+      .d-flex {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .line-text {
+        display: inline-block;
+        transform: translateY(110%);
+        transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .hero.active .line-text {
+        transform: translateY(0);
+      }
+
+      /* Theori Style Text Slider */
+      .slider-container {
+        display: inline-flex;
+        flex-direction: column;
+        height: 1.1em;
+        overflow: hidden;
+        vertical-align: bottom;
+        color: var(--text-secondary);
+      }
+      .slider-track {
+        animation: slideTrack 10s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      }
+      .slide-word {
+        height: 1.1em;
+        display: flex;
+        align-items: center;
+      }
+      .slide-word.accent {
+        color: #ffffff;
+      }
+
+      @keyframes slideTrack {
+        0%,
+        15% {
+          transform: translateY(0);
+        }
+        25%,
+        40% {
+          transform: translateY(-1.1em);
+        }
+        50%,
+        65% {
+          transform: translateY(-2.2em);
+        }
+        75%,
+        90% {
+          transform: translateY(-3.3em);
+        }
+        100% {
+          transform: translateY(-4.4em);
+        }
+      }
+
+      .hero-desc {
+        font-size: clamp(1.25rem, 2vw, 1.6rem);
+        font-weight: 500;
+        color: var(--text-secondary);
+        max-width: 850px;
+        line-height: 1.6;
+        letter-spacing: -0.02em;
+        word-break: keep-all;
+        margin-bottom: 60px;
+      }
+
+      /* --- Global Members Section --- */
+      .global-presence {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-top: 40px;
+        border-top: 1px solid var(--border-color);
+        max-width: 900px;
+      }
+      .global-label {
+        font-size: 0.85rem;
+        color: var(--text-tertiary);
+        letter-spacing: 0.1em;
+      }
+      .flag-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .flag-emoji {
+        font-size: 3.5rem;
+        line-height: 1;
+        user-select: none;
+      }
+
+      /* --- Grid Layout (Theori Style) --- */
+      .grid-layout {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        min-height: 50vh;
+        border-bottom: 1px solid var(--border-color);
+      }
+      @media (max-width: 900px) {
+        .grid-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .sec-left {
+        padding: 80px 4vw 80px 0;
+        border-right: 1px solid var(--border-color);
+      }
+      .sec-right {
+        padding: 80px 0 80px 4vw;
+      }
+      @media (max-width: 900px) {
+        .sec-left {
+          border-right: none;
+          border-bottom: 1px solid var(--border-color);
+          padding: 60px 0 40px 0;
+        }
+        .sec-right {
+          padding: 40px 0 60px 0;
+        }
+      }
+
+      .sec-label {
+        font-size: 0.95rem;
+        color: var(--text-tertiary);
+        letter-spacing: 0.05em;
+        margin-bottom: 24px;
+        display: block;
+      }
+      .sec-title {
+        font-size: clamp(2.5rem, 4vw, 3.5rem);
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1.2;
+      }
+
+      /* --- Content Blocks --- */
+      .content-block {
+        margin-bottom: 60px;
+      }
+      .content-block:last-child {
+        margin-bottom: 0;
+      }
+      .content-block p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        margin-bottom: 32px;
+        line-height: 1.6;
+        word-break: keep-all;
+      }
+
+      /* Tech Tags */
+      .tag-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .tag {
+        padding: 8px 18px;
+        border: 1px solid var(--border-color);
+        border-radius: 100px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #d1d1d1;
+        transition: all 0.2s;
+      }
+      .tag:hover {
+        border-color: #fff;
+        color: #fff;
+      }
+
+      /* --- External Links --- */
+      .link-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 32px 0;
+        border-top: 1px solid var(--border-color);
+        text-decoration: none;
+        color: var(--text-primary);
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .link-row:last-child {
+        border-bottom: 1px solid var(--border-color);
+      }
+      .link-row .link-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .link-row .arrow {
+        font-size: 1.5rem;
+        transition: transform 0.4s;
+        color: var(--text-tertiary);
+      }
+      .link-row:hover {
+        padding-left: 24px;
+        padding-right: 24px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+      .link-row:hover .arrow {
+        transform: translate(4px, -4px);
+        color: #fff;
+      }
+
+      /* --- Data Grid (Rules) --- */
+      .data-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1px;
+        background: var(--border-color);
+        border: 1px solid var(--border-color);
+      }
+      .data-cell {
+        background: var(--bg-color);
+        padding: 40px;
+        transition: background 0.3s;
+      }
+      .data-cell:hover {
+        background: var(--surface-color);
+      }
+      .data-label {
+        font-size: 0.85rem;
+        color: var(--text-tertiary);
+        letter-spacing: 0.05em;
+        margin-bottom: 16px;
+      }
+      .data-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      /* --- Restriction Alert --- */
+      .restriction-box {
+        padding: 40px;
+        background: var(--surface-color);
+        border: 1px solid var(--border-color);
+        margin-bottom: 60px;
+      }
+      .restriction-box h3 {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+        letter-spacing: -0.02em;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .restriction-box h3::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: #ff4444;
+        border-radius: 50%;
+      }
+      .restriction-box p {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 0;
+        line-height: 1.6;
+      }
+
+      /* --- Process List --- */
+      .process-list {
+        list-style: none;
+        border-top: 1px solid var(--border-color);
+      }
+      .process-item {
+        padding: 40px 0;
+        border-bottom: 1px solid var(--border-color);
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 24px;
+      }
+      .process-num {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-tertiary);
+      }
+      .process-item h4 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .badge-new {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border: 1px solid var(--text-tertiary);
+        color: var(--text-secondary);
+        border-radius: 4px;
+        font-weight: 500;
+      }
+      .process-item p {
+        font-size: 1.15rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
+
+      /* --- Button --- */
+      .btn-solid {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px 48px;
+        background: var(--text-primary);
+        color: var(--bg-color);
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        margin-top: 60px;
+      }
+      .btn-solid:hover {
+        transform: translateY(-4px);
+        background: #d1d1d1;
+        box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+      }
+      .btn-solid svg {
+        transition: transform 0.3s;
+      }
+      .btn-solid:hover svg {
+        transform: translateX(4px);
+      }
+
+      /* --- Cinematic Scroll Animation --- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(5px);
+        transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+      }
+
+      .delay-1 {
+        transition-delay: 0.1s;
+      }
+      .delay-2 {
+        transition-delay: 0.2s;
+      }
+      .delay-3 {
+        transition-delay: 0.3s;
+      }
+      .delay-4 {
+        transition-delay: 0.4s;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="#" class="logo">
+        <img src="rewrite.png" alt="Rewrite Lab Mascot" />
+        Rewrite Lab.
+      </a>
+      <div class="nav-status mono">
+        <span class="dot"></span> OPEN RECRUITING 2026
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero container">
+      <h1>
+        <div class="line-wrap">
+          <span class="line-text delay-1">WE RESEARCH</span>
+        </div>
+        <div class="line-wrap d-flex">
+          <span class="line-text delay-2">THE&nbsp;</span>
+
+          <span class="line-text delay-2 slider-container">
+            <div class="slider-track">
+              <div class="slide-word">BROWSER.</div>
+              <div class="slide-word">CLIENT SIDE.</div>
+              <div class="slide-word">SERVER SIDE.</div>
+              <div class="slide-word accent">ROOT CAUSE.</div>
+              <div class="slide-word">BROWSER.</div>
+            </div>
+          </span>
+        </div>
+      </h1>
+
+      <p class="hero-desc reveal delay-3">
+        웹과 관련된 모든 부분을 파고들고 체계적으로, 심화적으로 연구합니다.<br />
+        Rewrite Lab은 "연구한 내용은 모두 책임있게 공개한다"는 원칙 아래 지식을
+        축적하고 공유하는 활동을 수행하는 글로벌 웹 해킹 리서치 그룹입니다.
+      </p>
+
+      <div class="global-presence reveal delay-4">
+        <span class="global-label mono">GLOBAL RESEARCHERS BASED IN</span>
+        <div class="flag-grid">
+          <span class="flag-emoji" title="South Korea">🇰🇷</span>
+          <span class="flag-emoji" title="United Kingdom">🇬🇧</span>
+          <span class="flag-emoji" title="France">🇫🇷</span>
+          <span class="flag-emoji" title="Germany">🇩🇪</span>
+          <span class="flag-emoji" title="Italy">🇮🇹</span>
+          <span class="flag-emoji" title="Poland">🇵🇱</span>
+          <span class="flag-emoji" title="Croatia">🇭🇷</span>
+          <span class="flag-emoji" title="Vietnam">🇻🇳</span>
+          <span class="flag-emoji" title="Egypt">🇪🇬</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 01 / Core Research -->
+    <section class="grid-layout container">
+      <div class="sec-left reveal">
+        <span class="sec-label mono">01 FOCUS AREA</span>
+        <h2 class="sec-title">Beyond<br />the Surface.</h2>
+      </div>
+      <div class="sec-right reveal delay-1">
+        <div class="content-block">
+          <p>
+            우리는 한국을 비롯한 유럽, 아시아 등 전 세계 웹 해커들과 함께
+            심화적인 취약점 연구와 고난도의 분석을 내부적으로 진행합니다. 그리고
+            독자적인 워게임과 리서치를 운영하여 우리가 연구했던 내용을
+            공개적으로 책임있게 공유합니다.
+          </p>
+          <div class="tag-wrap mono">
+            <span class="tag">Chromium</span>
+            <span class="tag">Firefox</span>
+            <span class="tag">OpenJDK</span>
+            <span class="tag">Sanitizer</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Framework / Library</span>
+          </div>
+        </div>
+
+        <div class="content-block" style="margin-top: 80px">
+          <a
+            href="https://research.rewritelab.org/"
+            target="_blank"
+            class="link-row"
+          >
+            <span class="link-title">Research Lab</span>
+            <span class="arrow mono">↗</span>
+          </a>
+          <a
+            href="https://wargame.rewritelab.org/"
+            target="_blank"
+            class="link-row"
+          >
+            <span class="link-title">Wargame System</span>
+            <span class="arrow mono">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 / Operations -->
+    <section class="grid-layout container">
+      <div class="sec-left reveal">
+        <span class="sec-label mono">02 SYSTEM RULES</span>
+        <h2 class="sec-title">100% Autonomous.<br />100% Online.</h2>
+      </div>
+      <div class="sec-right reveal delay-1">
+        <div class="content-block">
+          <p>
+            모든 연구 활동은 오직 멤버들의 자율성에 기반하여 운영됩니다.
+            강압적인 지시는 없으며, 다양한 국적의 멤버들이 활동하는 만큼 주요
+            커뮤니케이션과 문서화는 <strong>영어(English)</strong>로 진행됩니다.
+          </p>
+        </div>
+
+        <div class="data-grid mono">
+          <div class="data-cell">
+            <div class="data-label">RESEARCH</div>
+            <div class="data-value">1-2 Months / 1회</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-label">PROJECT</div>
+            <div class="data-value">2-3 Months / 1회</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-label">CHALLENGE WRITING</div>
+            <div class="data-value">2-3 Months / 1회</div>
+          </div>
+          <div class="data-cell">
+            <div class="data-label">ANNUAL EVENT</div>
+            <div class="data-value">Yearly / 1회 필수</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 / Recruitment Process -->
+    <section
+      class="grid-layout container"
+      style="border-bottom: none; padding-bottom: 120px"
+    >
+      <div class="sec-left reveal">
+        <span class="sec-label mono">03 APPLICATION</span>
+        <h2 class="sec-title">Join the Core.</h2>
+      </div>
+      <div class="sec-right">
+        <div class="restriction-box reveal delay-1">
+          <h3>Beginners Restricted</h3>
+          <p>
+            현재 팀이 수행 중인 리서치는 브라우저 엔진(Chromium, Firefox) 및
+            런타임 구조, 프레임워크 및 라이브러리에 대한 고도의 기술적 이해를
+            요구합니다.
+            <br />합류 즉시 이러한 심화 리서치를 팀 단위로 수행하고 논의할 수
+            있는 리서처 분들을 모십니다. (웹 해킹 입문자/초보자 지원 불가)
+          </p>
+        </div>
+
+        <ul class="process-list">
+          <li class="process-item reveal delay-1">
+            <div class="process-num mono">01</div>
+            <div>
+              <h4>서류 및 포트폴리오 제출</h4>
+              <p>
+                정해진 양식은 없습니다. 본인의 기술적 깊이를 증명할 수 있는 연구
+                내역, 심도 있는 CTF 풀이, 버그바운티 취약점 제보 경험 등을
+                상세히 제출해 주십시오.
+              </p>
+            </div>
+          </li>
+          <li class="process-item reveal delay-2">
+            <div class="process-num mono">02</div>
+            <div>
+              <h4>
+                Discord 디스커션 <span class="badge-new mono">NEW UPDATE</span>
+              </h4>
+              <p>
+                형식적인 압박 면접은 없습니다. 다만, 지원자의 리서치 방향성과
+                기술적 핏(Fit)을 파악하기 위해 기존 글로벌 멤버들과 Discord를
+                통해 심도 있는 기술 대화(Casual Chat)를 진행합니다.
+              </p>
+            </div>
+          </li>
+          <li class="process-item reveal delay-3" style="border-bottom: none">
+            <div class="process-num mono">03</div>
+            <div>
+              <h4>최종 합류 승인</h4>
+              <p>
+                승인이 완료되면 Rewrite Lab의 정식 연구원으로 권한이 부여되며,
+                즉시 글로벌 리서치 파트에 합류하여 활동을 시작합니다.
+              </p>
+            </div>
+          </li>
+        </ul>
+
+        <div class="reveal delay-1">
+          <a
+            href="#"
+            class="btn-solid mono"
+            onclick="alert('지원 폼 링크를 삽입해주세요.')"
+          >
+            Apply as Researcher
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15,
+      };
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      setTimeout(() => {
+        document.querySelector(".hero").classList.add("active");
+        document.querySelectorAll(".hero .reveal").forEach((el) => {
+          el.classList.add("active");
+        });
+      }, 100);
+
+      document.querySelectorAll(".reveal").forEach((el) => {
+        if (!el.closest(".hero")) {
+          observer.observe(el);
+        }
+      });
+    </script>
+  </body>
+</html>
