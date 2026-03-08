@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 45" role="img" aria-labelledby="title">
+  <title>Germany</title>
+  <rect width="60" height="15" fill="#000000"/>
+  <rect y="15" width="60" height="15" fill="#dd0000"/>
+  <rect y="30" width="60" height="15" fill="#ffce00"/>
+</svg>

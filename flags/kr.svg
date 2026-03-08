@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 45" role="img" aria-labelledby="title">
+  <title>South Korea</title>
+  <rect width="60" height="45" fill="#ffffff"/>
+  <g transform="translate(30 22.5) rotate(33)">
+    <path
+      d="M0-9A9 9 0 1 1 0 9A4.5 4.5 0 1 0 0 0A4.5 4.5 0 1 1 0-9Z"
+      fill="#cd2e3a"
+    />
+    <path
+      d="M0 9A9 9 0 1 1 0-9A4.5 4.5 0 1 0 0 0A4.5 4.5 0 1 1 0 9Z"
+      fill="#0047a0"
+    />
+  </g>
+  <g fill="#000000" transform="translate(13 11) rotate(-33)">
+    <rect x="-5" y="-5" width="10" height="2"/>
+    <rect x="-5" y="-1" width="10" height="2"/>
+    <rect x="-5" y="3" width="10" height="2"/>
+  </g>
+  <g fill="#000000" transform="translate(47 11) rotate(33)">
+    <rect x="-5" y="-5" width="3.8" height="2"/>
+    <rect x="1.2" y="-5" width="3.8" height="2"/>
+    <rect x="-5" y="-1" width="10" height="2"/>
+    <rect x="-5" y="3" width="3.8" height="2"/>
+    <rect x="1.2" y="3" width="3.8" height="2"/>
+  </g>
+  <g fill="#000000" transform="translate(13 34) rotate(33)">
+    <rect x="-5" y="-5" width="10" height="2"/>
+    <rect x="-5" y="-1" width="3.8" height="2"/>
+    <rect x="1.2" y="-1" width="3.8" height="2"/>
+    <rect x="-5" y="3" width="10" height="2"/>
+  </g>
+  <g fill="#000000" transform="translate(47 34) rotate(-33)">
+    <rect x="-5" y="-5" width="3.8" height="2"/>
+    <rect x="1.2" y="-5" width="3.8" height="2"/>
+    <rect x="-5" y="-1" width="3.8" height="2"/>
+    <rect x="1.2" y="-1" width="3.8" height="2"/>
+    <rect x="-5" y="3" width="3.8" height="2"/>
+    <rect x="1.2" y="3" width="3.8" height="2"/>
+  </g>
+</svg>

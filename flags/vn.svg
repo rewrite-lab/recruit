@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 45" role="img" aria-labelledby="title">
+  <title>Vietnam</title>
+  <rect width="60" height="45" fill="#da251d"/>
+  <path
+    d="M30 10.5L32.83 19.22H41.99L34.58 24.61L37.41 33.33L30 27.94L22.59 33.33L25.42 24.61L18.01 19.22H27.17Z"
+    fill="#ffde00"
+  />
+</svg>

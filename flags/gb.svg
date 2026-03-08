@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 45" role="img" aria-labelledby="title">
+  <title>United Kingdom</title>
+  <rect width="60" height="45" fill="#012169"/>
+  <path d="M0 0L60 45M60 0L0 45" stroke="#ffffff" stroke-width="12"/>
+  <path d="M0 0L60 45M60 0L0 45" stroke="#c8102e" stroke-width="6"/>
+  <path d="M30 0V45M0 22.5H60" stroke="#ffffff" stroke-width="18"/>
+  <path d="M30 0V45M0 22.5H60" stroke="#c8102e" stroke-width="10"/>
+</svg>

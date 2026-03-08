@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 45" role="img" aria-labelledby="title">
+  <title>Croatia</title>
+  <rect width="60" height="15" fill="#ff0000"/>
+  <rect y="15" width="60" height="15" fill="#ffffff"/>
+  <rect y="30" width="60" height="15" fill="#171796"/>
+  <g transform="translate(30 23)">
+    <path
+      d="M-7-10H7V4C7 9 0 13 0 13S-7 9-7 4Z"
+      fill="#ffffff"
+      stroke="#0b4ea2"
+      stroke-width="1"
+    />
+    <g transform="translate(-6 -9)">
+      <rect width="3" height="3" fill="#ff0000"/>
+      <rect x="3" width="3" height="3" fill="#ffffff"/>
+      <rect x="6" width="3" height="3" fill="#ff0000"/>
+      <rect x="9" width="3" height="3" fill="#ffffff"/>
+      <rect y="3" width="3" height="3" fill="#ffffff"/>
+      <rect x="3" y="3" width="3" height="3" fill="#ff0000"/>
+      <rect x="6" y="3" width="3" height="3" fill="#ffffff"/>
+      <rect x="9" y="3" width="3" height="3" fill="#ff0000"/>
+      <rect y="6" width="3" height="3" fill="#ff0000"/>
+      <rect x="3" y="6" width="3" height="3" fill="#ffffff"/>
+      <rect x="6" y="6" width="3" height="3" fill="#ff0000"/>
+      <rect x="9" y="6" width="3" height="3" fill="#ffffff"/>
+      <rect y="9" width="3" height="3" fill="#ffffff"/>
+      <rect x="3" y="9" width="3" height="3" fill="#ff0000"/>
+      <rect x="6" y="9" width="3" height="3" fill="#ffffff"/>
+      <rect x="9" y="9" width="3" height="3" fill="#ff0000"/>
+    </g>
+    <path d="M-6.5-10.5L0-13.5L6.5-10.5" fill="#0b4ea2"/>
+  </g>
+</svg>

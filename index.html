@@ -1,9 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en" data-lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rewrite Lab | Global Web Security Research</title>
+    <script>
+      (() => {
+        try {
+          const savedLanguage = localStorage.getItem("rewrite-language");
+          const initialLanguage = savedLanguage === "ko" ? "ko" : "en";
+          document.documentElement.lang = initialLanguage;
+          document.documentElement.dataset.lang = initialLanguage;
+        } catch (error) {
+          document.documentElement.lang = "en";
+          document.documentElement.dataset.lang = "en";
+        }
+      })();
+    </script>
     <link
       rel="stylesheet"
       as="style"
@@ -78,6 +91,14 @@
         z-index: 10;
       }
 
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
       .logo {
         display: flex;
         align-items: center;
@@ -103,6 +124,37 @@
         gap: 8px;
         font-size: 0.85rem;
         color: var(--text-secondary);
+      }
+
+      .lang-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px;
+        border: 1px solid var(--border-color);
+        border-radius: 999px;
+        background: var(--surface-color);
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease;
+      }
+      .lang-toggle:hover {
+        border-color: #444444;
+      }
+      .lang-toggle .option {
+        min-width: 44px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        color: var(--text-tertiary);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      html[data-lang="en"] .lang-toggle .option-en,
+      html[data-lang="ko"] .lang-toggle .option-ko {
+        background: var(--text-primary);
+        color: var(--bg-color);
       }
       .nav-status .dot {
         width: 6px;
@@ -232,8 +284,13 @@
       }
 
       .flag-emoji {
-        font-size: 3.5rem;
-        line-height: 1;
+        display: block;
+        width: 56px;
+        height: auto;
+        aspect-ratio: 4 / 3;
+        object-fit: cover;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
         user-select: none;
       }
 
@@ -502,6 +559,257 @@
       .delay-4 {
         transition-delay: 0.4s;
       }
+
+      .lang-copy {
+        display: none;
+      }
+      html[data-lang="ko"] .lang-copy.lang-ko,
+      html[data-lang="en"] .lang-copy.lang-en {
+        display: inline;
+      }
+
+      @media (max-width: 1440px) {
+        .container {
+          padding: 0 3vw;
+        }
+
+        nav {
+          padding: 22px 3vw;
+        }
+
+        .hero {
+          padding: 16vh 0 8vh 0;
+        }
+
+        .hero h1 {
+          font-size: clamp(3.5rem, 7.5vw, 6.4rem);
+        }
+
+        .hero-desc {
+          font-size: clamp(1.1rem, 1.7vw, 1.35rem);
+          max-width: 760px;
+          margin-bottom: 52px;
+        }
+
+        .sec-title {
+          font-size: clamp(2.2rem, 3.4vw, 3rem);
+        }
+
+        .content-block p,
+        .process-item p {
+          font-size: 1.05rem;
+        }
+
+        .link-row .link-title,
+        .process-item h4,
+        .data-value {
+          font-size: 1.3rem;
+        }
+
+        .flag-emoji {
+          width: 52px;
+        }
+      }
+
+      @media (max-width: 1100px) {
+        .container {
+          padding: 0 24px;
+        }
+
+        nav {
+          padding: 20px 24px;
+        }
+
+        .hero {
+          padding: 14vh 0 8vh 0;
+        }
+
+        .hero h1 {
+          font-size: clamp(3rem, 8vw, 5rem);
+          margin-bottom: 24px;
+        }
+
+        .hero-desc {
+          font-size: 1.02rem;
+          margin-bottom: 44px;
+        }
+
+        .global-presence {
+          gap: 16px;
+          padding-top: 32px;
+        }
+
+        .flag-grid {
+          gap: 18px;
+        }
+
+        .flag-emoji {
+          width: 46px;
+        }
+
+        .sec-left,
+        .sec-right {
+          padding-top: 64px;
+          padding-bottom: 64px;
+        }
+
+        .content-block {
+          margin-bottom: 48px;
+        }
+
+        .data-cell,
+        .restriction-box {
+          padding: 32px;
+        }
+
+        .process-item {
+          grid-template-columns: 64px 1fr;
+          gap: 20px;
+          padding: 32px 0;
+        }
+
+        .btn-solid {
+          padding: 18px 36px;
+          font-size: 1rem;
+          margin-top: 48px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        nav {
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .nav-actions {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .logo {
+          gap: 12px;
+          font-size: 1.1rem;
+        }
+
+        .logo img {
+          height: 40px;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.6rem, 12vw, 4.4rem);
+          line-height: 1.05;
+        }
+
+        .hero-desc {
+          font-size: 0.98rem;
+          line-height: 1.7;
+        }
+
+        .sec-title {
+          font-size: clamp(2rem, 8vw, 2.8rem);
+        }
+
+        .content-block p,
+        .process-item p,
+        .restriction-box p {
+          font-size: 1rem;
+        }
+
+        .link-row {
+          padding: 24px 0;
+        }
+
+        .link-row .link-title,
+        .data-value,
+        .process-item h4,
+        .restriction-box h3 {
+          font-size: 1.2rem;
+        }
+
+        .data-cell {
+          padding: 24px;
+        }
+
+        .process-item {
+          grid-template-columns: 52px 1fr;
+        }
+
+        .btn-solid {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 0 20px;
+        }
+
+        nav {
+          padding: 18px 20px;
+        }
+
+        .nav-status {
+          font-size: 0.75rem;
+        }
+
+        .lang-toggle .option {
+          min-width: 40px;
+          padding: 6px 10px;
+          font-size: 0.72rem;
+        }
+
+        .hero {
+          padding: 12vh 0 7vh 0;
+        }
+
+        .hero h1 {
+          font-size: clamp(2.1rem, 14vw, 3rem);
+        }
+
+        .hero-desc {
+          font-size: 0.92rem;
+          margin-bottom: 36px;
+        }
+
+        .global-label,
+        .sec-label,
+        .data-label {
+          font-size: 0.76rem;
+        }
+
+        .flag-grid {
+          gap: 14px;
+        }
+
+        .flag-emoji {
+          width: 40px;
+        }
+
+        .tag {
+          padding: 7px 14px;
+          font-size: 0.8rem;
+        }
+
+        .link-row .link-title,
+        .data-value,
+        .process-item h4,
+        .restriction-box h3 {
+          font-size: 1.05rem;
+        }
+
+        .process-item {
+          grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .process-num {
+          font-size: 1rem;
+        }
+
+        .btn-solid {
+          padding: 16px 24px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -510,8 +818,19 @@
         <img src="rewrite.png" alt="Rewrite Lab Mascot" />
         Rewrite Lab.
       </a>
-      <div class="nav-status mono">
-        <span class="dot"></span> OPEN RECRUITING 2026
+      <div class="nav-actions">
+        <div class="nav-status mono">
+          <span class="dot"></span> OPEN RECRUITING 2026
+        </div>
+        <button
+          type="button"
+          class="lang-toggle mono"
+          aria-label="Switch language to Korean"
+          aria-pressed="false"
+        >
+          <span class="option option-en">EN</span>
+          <span class="option option-ko">KR</span>
+        </button>
       </div>
     </nav>
 
@@ -537,23 +856,78 @@
       </h1>
 
       <p class="hero-desc reveal delay-3">
-        웹과 관련된 모든 부분을 파고들고 체계적으로, 심화적으로 연구합니다.<br />
-        Rewrite Lab은 "연구한 내용은 모두 책임있게 공개한다"는 원칙 아래 지식을
-        축적하고 공유하는 활동을 수행하는 글로벌 웹 해킹 리서치 그룹입니다.
+        <span class="lang-copy lang-ko"
+          >웹과 관련된 모든 부분을 파고들고 체계적으로, 심화적으로 연구합니다.<br />
+          Rewrite Lab은 "연구한 내용은 모두 책임있게 공개한다"는 원칙 아래
+          지식을 축적하고 공유하는 활동을 수행하는 글로벌 웹 해킹 리서치
+          그룹입니다.</span
+        >
+        <span class="lang-copy lang-en"
+          >We dig into every layer of the web through structured, in-depth
+          research.<br />
+          Rewrite Lab is a global web hacking research group that builds and
+          shares knowledge under the principle that "everything we study must
+          be disclosed responsibly."</span
+        >
       </p>
 
       <div class="global-presence reveal delay-4">
         <span class="global-label mono">GLOBAL RESEARCHERS BASED IN</span>
         <div class="flag-grid">
-          <span class="flag-emoji" title="South Korea">🇰🇷</span>
-          <span class="flag-emoji" title="United Kingdom">🇬🇧</span>
-          <span class="flag-emoji" title="France">🇫🇷</span>
-          <span class="flag-emoji" title="Germany">🇩🇪</span>
-          <span class="flag-emoji" title="Italy">🇮🇹</span>
-          <span class="flag-emoji" title="Poland">🇵🇱</span>
-          <span class="flag-emoji" title="Croatia">🇭🇷</span>
-          <span class="flag-emoji" title="Vietnam">🇻🇳</span>
-          <span class="flag-emoji" title="Egypt">🇪🇬</span>
+          <img
+            class="flag-emoji"
+            src="flags/kr.svg"
+            alt="South Korea flag"
+            title="South Korea"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/gb.svg"
+            alt="United Kingdom flag"
+            title="United Kingdom"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/fr.svg"
+            alt="France flag"
+            title="France"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/de.svg"
+            alt="Germany flag"
+            title="Germany"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/it.svg"
+            alt="Italy flag"
+            title="Italy"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/pl.svg"
+            alt="Poland flag"
+            title="Poland"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/hr.svg"
+            alt="Croatia flag"
+            title="Croatia"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/vn.svg"
+            alt="Vietnam flag"
+            title="Vietnam"
+          />
+          <img
+            class="flag-emoji"
+            src="flags/eg.svg"
+            alt="Egypt flag"
+            title="Egypt"
+          />
         </div>
       </div>
     </header>
@@ -567,10 +941,19 @@
       <div class="sec-right reveal delay-1">
         <div class="content-block">
           <p>
-            우리는 한국을 비롯한 유럽, 아시아 등 전 세계 웹 해커들과 함께
-            심화적인 취약점 연구와 고난도의 분석을 내부적으로 진행합니다. 그리고
-            독자적인 워게임과 리서치를 운영하여 우리가 연구했던 내용을
-            공개적으로 책임있게 공유합니다.
+            <span class="lang-copy lang-ko"
+              >우리는 한국을 비롯한 유럽, 아시아 등 전 세계 웹 해커들과 함께
+              심화적인 취약점 연구와 고난도의 분석을 내부적으로 진행합니다.
+              그리고 독자적인 워게임과 리서치를 운영하여 우리가 연구했던 내용을
+              공개적으로 책임있게 공유합니다.</span
+            >
+            <span class="lang-copy lang-en"
+              >We work with web hackers across Korea, Europe, Asia, and beyond
+              to conduct advanced vulnerability research and high-difficulty
+              analysis internally. We also run our own wargames and research
+              initiatives to share what we have studied with public
+              responsibility.</span
+            >
           </p>
           <div class="tag-wrap mono">
             <span class="tag">Chromium</span>
@@ -612,28 +995,49 @@
       <div class="sec-right reveal delay-1">
         <div class="content-block">
           <p>
-            모든 연구 활동은 오직 멤버들의 자율성에 기반하여 운영됩니다.
-            강압적인 지시는 없으며, 다양한 국적의 멤버들이 활동하는 만큼 주요
-            커뮤니케이션과 문서화는 <strong>영어(English)</strong>로 진행됩니다.
+            <span class="lang-copy lang-ko"
+              >모든 연구 활동은 오직 멤버들의 자율성에 기반하여 운영됩니다.
+              강압적인 지시는 없으며, 다양한 국적의 멤버들이 활동하는 만큼 주요
+              커뮤니케이션과 문서화는
+              <strong>영어(English)</strong>로 진행됩니다.</span
+            >
+            <span class="lang-copy lang-en"
+              >All research activity is driven entirely by member autonomy.
+              There are no forced directives, and because members work across
+              multiple nationalities, primary communication and documentation
+              are conducted in <strong>English</strong>.</span
+            >
           </p>
         </div>
 
         <div class="data-grid mono">
           <div class="data-cell">
             <div class="data-label">RESEARCH</div>
-            <div class="data-value">1-2 Months / 1회</div>
+            <div class="data-value">
+              <span class="lang-copy lang-ko">1-2 Months / 1회</span>
+              <span class="lang-copy lang-en">1-2 Months / Once</span>
+            </div>
           </div>
           <div class="data-cell">
             <div class="data-label">PROJECT</div>
-            <div class="data-value">2-3 Months / 1회</div>
+            <div class="data-value">
+              <span class="lang-copy lang-ko">2-3 Months / 1회</span>
+              <span class="lang-copy lang-en">2-3 Months / Once</span>
+            </div>
           </div>
           <div class="data-cell">
             <div class="data-label">CHALLENGE WRITING</div>
-            <div class="data-value">2-3 Months / 1회</div>
+            <div class="data-value">
+              <span class="lang-copy lang-ko">2-3 Months / 1회</span>
+              <span class="lang-copy lang-en">2-3 Months / Once</span>
+            </div>
           </div>
           <div class="data-cell">
             <div class="data-label">ANNUAL EVENT</div>
-            <div class="data-value">Yearly / 1회 필수</div>
+            <div class="data-value">
+              <span class="lang-copy lang-ko">Yearly / 1회 필수</span>
+              <span class="lang-copy lang-en">Yearly / 1 Required</span>
+            </div>
           </div>
         </div>
       </div>
@@ -652,11 +1056,23 @@
         <div class="restriction-box reveal delay-1">
           <h3>Beginners Restricted</h3>
           <p>
-            현재 팀이 수행 중인 리서치는 브라우저 엔진(Chromium, Firefox) 및
-            런타임 구조, 프레임워크 및 라이브러리에 대한 고도의 기술적 이해를
-            요구합니다.
-            <br />합류 즉시 이러한 심화 리서치를 팀 단위로 수행하고 논의할 수
-            있는 리서처 분들을 모십니다. (웹 해킹 입문자/초보자 지원 불가)
+            <span class="lang-copy lang-ko"
+              >현재 팀이 수행 중인 리서치는 브라우저 엔진(Chromium, Firefox)
+              및 런타임 구조, 프레임워크 및 라이브러리에 대한 고도의 기술적
+              이해를 요구합니다.
+              <br />합류 즉시 이러한 심화 리서치를 팀 단위로 수행하고 논의할 수
+              있는 리서처 분들을 모십니다. (웹 해킹 입문자/초보자 지원
+              불가)</span
+            >
+            <span class="lang-copy lang-en"
+              >Our current research demands strong technical understanding of
+              browser engines (Chromium, Firefox), runtime internals,
+              frameworks, and libraries.
+              <br />We are looking for researchers who can immediately
+              participate in and discuss this level of advanced research as a
+              team. (No support for web hacking beginners or entry-level
+              applicants)</span
+            >
           </p>
         </div>
 
@@ -664,11 +1080,24 @@
           <li class="process-item reveal delay-1">
             <div class="process-num mono">01</div>
             <div>
-              <h4>서류 및 포트폴리오 제출</h4>
+              <h4>
+                <span class="lang-copy lang-ko">서류 및 포트폴리오 제출</span>
+                <span class="lang-copy lang-en"
+                  >Resume and Portfolio Submission</span
+                >
+              </h4>
               <p>
-                정해진 양식은 없습니다. 본인의 기술적 깊이를 증명할 수 있는 연구
-                내역, 심도 있는 CTF 풀이, 버그바운티 취약점 제보 경험 등을
-                상세히 제출해 주십시오.
+                <span class="lang-copy lang-ko"
+                  >정해진 양식은 없습니다. 본인의 기술적 깊이를 증명할 수 있는
+                  연구 내역, 심도 있는 CTF 풀이, 버그바운티 취약점 제보 경험
+                  등을 상세히 제출해 주십시오.</span
+                >
+                <span class="lang-copy lang-en"
+                  >There is no fixed format. Please submit detailed materials
+                  that demonstrate your technical depth, such as research
+                  history, in-depth CTF writeups, or bug bounty disclosure
+                  experience.</span
+                >
               </p>
             </div>
           </li>
@@ -676,22 +1105,49 @@
             <div class="process-num mono">02</div>
             <div>
               <h4>
-                Discord 디스커션 <span class="badge-new mono">NEW UPDATE</span>
+                <span class="lang-copy lang-ko"
+                  >Discord 디스커션
+                  <span class="badge-new mono">NEW UPDATE</span></span
+                >
+                <span class="lang-copy lang-en"
+                  >Discord Discussion
+                  <span class="badge-new mono">NEW UPDATE</span></span
+                >
               </h4>
               <p>
-                형식적인 압박 면접은 없습니다. 다만, 지원자의 리서치 방향성과
-                기술적 핏(Fit)을 파악하기 위해 기존 글로벌 멤버들과 Discord를
-                통해 심도 있는 기술 대화(Casual Chat)를 진행합니다.
+                <span class="lang-copy lang-ko"
+                  >형식적인 압박 면접은 없습니다. 다만, 지원자의 리서치
+                  방향성과 기술적 핏(Fit)을 파악하기 위해 기존 글로벌 멤버들과
+                  Discord를 통해 심도 있는 기술 대화(Casual Chat)를
+                  진행합니다.</span
+                >
+                <span class="lang-copy lang-en"
+                  >There is no formal pressure interview. Instead, to
+                  understand your research direction and technical fit, we hold
+                  an in-depth casual technical chat with existing global
+                  members over Discord.</span
+                >
               </p>
             </div>
           </li>
           <li class="process-item reveal delay-3" style="border-bottom: none">
             <div class="process-num mono">03</div>
             <div>
-              <h4>최종 합류 승인</h4>
+              <h4>
+                <span class="lang-copy lang-ko">최종 합류 승인</span>
+                <span class="lang-copy lang-en">Final Approval</span>
+              </h4>
               <p>
-                승인이 완료되면 Rewrite Lab의 정식 연구원으로 권한이 부여되며,
-                즉시 글로벌 리서치 파트에 합류하여 활동을 시작합니다.
+                <span class="lang-copy lang-ko"
+                  >승인이 완료되면 Rewrite Lab의 정식 연구원으로 권한이
+                  부여되며, 즉시 글로벌 리서치 파트에 합류하여 활동을
+                  시작합니다.</span
+                >
+                <span class="lang-copy lang-en"
+                  >Once approved, you will be granted access as an official
+                  Rewrite Lab researcher and can immediately join the global
+                  research track.</span
+                >
               </p>
             </div>
           </li>
@@ -701,7 +1157,7 @@
           <a
             href="#"
             class="btn-solid mono"
-            onclick="alert('지원 폼 링크를 삽입해주세요.')"
+            onclick="showApplicationAlert(); return false;"
           >
             Apply as Researcher
             <svg
@@ -723,6 +1179,51 @@
     </section>
 
     <script>
+      const languageToggle = document.querySelector(".lang-toggle");
+      const languageStorageKey = "rewrite-language";
+
+      const setLanguage = (language) => {
+        const nextLanguage = language === "ko" ? "ko" : "en";
+        document.documentElement.dataset.lang = nextLanguage;
+        document.documentElement.lang = nextLanguage;
+
+        if (languageToggle) {
+          const switchLabel =
+            nextLanguage === "en"
+              ? "Switch language to Korean"
+              : "Switch language to English";
+          languageToggle.setAttribute("aria-pressed", String(nextLanguage === "ko"));
+          languageToggle.setAttribute("aria-label", switchLabel);
+        }
+
+        try {
+          localStorage.setItem(languageStorageKey, nextLanguage);
+        } catch (error) {
+          // Ignore storage failures and keep the current in-memory language.
+        }
+      };
+
+      const showApplicationAlert = () => {
+        const isKorean = document.documentElement.dataset.lang === "ko";
+        alert(
+          isKorean
+            ? "지원 폼 링크를 삽입해주세요."
+            : "Please insert the application form link."
+        );
+      };
+
+      window.showApplicationAlert = showApplicationAlert;
+
+      if (languageToggle) {
+        languageToggle.addEventListener("click", () => {
+          const currentLanguage =
+            document.documentElement.dataset.lang === "ko" ? "ko" : "en";
+          setLanguage(currentLanguage === "en" ? "ko" : "en");
+        });
+      }
+
+      setLanguage(document.documentElement.dataset.lang || "en");
+
       const observerOptions = {
         root: null,
         rootMargin: "0px",

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 45" role="img" aria-labelledby="title">
+  <title>Egypt</title>
+  <rect width="60" height="15" fill="#ce1126"/>
+  <rect y="15" width="60" height="15" fill="#ffffff"/>
+  <rect y="30" width="60" height="15" fill="#000000"/>
+  <g transform="translate(30 22.5)" fill="#c9a227">
+    <path d="M-2.5-5H2.5V5H-2.5Z"/>
+    <path d="M-5-5L0-9L5-5Z"/>
+    <path d="M-5 5H5L3 8H-3Z"/>
+  </g>
+</svg>
