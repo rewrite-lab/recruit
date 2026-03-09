@@ -416,7 +416,7 @@
       /* --- Data Grid (Rules) --- */
       .data-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1px;
         background: var(--border-color);
         border: 1px solid var(--border-color);
@@ -832,6 +832,10 @@
           font-size: 0.8rem;
         }
 
+        .data-grid {
+          grid-template-columns: 1fr;
+        }
+
         .application-window {
           padding: 20px;
           margin-bottom: 24px;
@@ -1002,16 +1006,16 @@
         <div class="content-block">
           <p>
             <span class="lang-copy lang-ko"
-              >우리는 한국을 비롯한 유럽, 아시아 등 전 세계 웹 해커들과 함께
-              심화적인 취약점 연구와 고난도의 분석을 내부적으로 진행합니다.
-              그리고 독자적인 워게임과 리서치를 운영하여 우리가 연구했던 내용을
-              공개적으로 책임있게 공유합니다.</span
+              >우리는 한국을 비롯한 유럽, 아시아, 아프리카 등 전 세계 웹
+              해커들과 함께 심화적인 취약점 연구와 고난도의 분석을 내부적으로
+              진행합니다. 그리고 독자적인 워게임과 리서치를 운영하여 우리가
+              연구했던 내용을 공개적으로 책임있게 공유합니다.</span
             >
             <span class="lang-copy lang-en"
-              >We work with web hackers across Korea, Europe, Asia, and beyond
-              to conduct advanced vulnerability research and high-difficulty
-              analysis internally. We also run our own wargames and research
-              initiatives to share what we have studied with public
+              >We work with web hackers across Korea, Europe, Asia, Africa and
+              beyond to conduct advanced vulnerability research and
+              high-difficulty analysis internally. We also run our own wargames
+              and research initiatives to share what we have studied with public
               responsibility.</span
             >
           </p>
@@ -1229,9 +1233,9 @@
 
         <div class="reveal delay-1">
           <a
-            href="#"
+            href="https://forms.gle/ANpcvyhA4vkge5CdA"
             class="btn-solid mono"
-            onclick="showApplicationAlert(); return false;"
+            target="_blank"
           >
             Apply as Researcher
             <svg
